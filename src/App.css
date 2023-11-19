@@ -5,3 +5,13 @@
   text-align: center;
   scroll-behavior: smooth;
 }
+
+.input {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3pt double rgb(51, 255, 0);
+  padding: 10px;
+}
+

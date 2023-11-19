@@ -1,14 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const uploadImage = (files) => {
+    console.log(files[0]);
+  }
 
   return (
-      <div>
-        learning cloudinary
+    <div>
+      <div className="heading">
+        <h2>Implementing Cloudinary</h2>
+      
+      </div>
+      <div className="input">
+        <input 
+          type="file"
+          onChange={(event) => {
+            uploadImage(event.target.files);
+          }}
+        />
+      </div>
     </div>
   )
 }
