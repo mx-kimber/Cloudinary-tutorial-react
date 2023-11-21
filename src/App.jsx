@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css'
+import './App.css';
 import axios from 'axios';
 
 function App() {
@@ -20,18 +20,16 @@ function App() {
     }
   };
 
-  const uploadImage = () => {
-    const formData= new FormData()
-    formData.append("file", imageSelected)
-    formData.append("upload_preset", "CLOUDINARY-UPLOAD-PRESET-NAME")
+  const uploadImage = async () => {
+    const formData = new FormData();
+    formData.append("file", imageSelected);
 
-    axios.post(
-      "https://api.cloudinary.com/v1_1/YOUR-CLOUD-NAME/image/upload", 
-      formData
-    ).then((response) => {
-      console.log(response);
-    });
-  
+    try {
+      const response = await axios.post("http://localhost:3000/upload_image.json", formData);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -41,7 +39,7 @@ function App() {
       
       </div>
       <div className="input">
-        <input 
+        <input
           type="file"
           onChange={handleImageChange}
         />
