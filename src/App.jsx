@@ -64,14 +64,18 @@ function App() {
         />
         <button onClick={uploadImage}> Upload Image </button>
       </div>
-      
+      <div>
+        <h3>Cloudinary Images</h3>
+      </div> 
       <div className="image-container"> 
-        <div className="heading"
->         <h3>Cloudinary Images</h3>
-        </div> 
         <div className="image-wrap">
           {cloudinaryImages.map((image) => (
-            <img src={image.url} className="photo" />
+            <img 
+              src={image.url} 
+              key={image.public_id} 
+              className="photo" 
+              alt={image.public_id} 
+            />
           ))}
         </div>
       </div>
