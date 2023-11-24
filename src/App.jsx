@@ -41,6 +41,8 @@ function App() {
     try {
       const response = await axios.post("http://localhost:3000/upload_image.json", formData);
       console.log(response.data);
+      const updatedImagesResponse = await axios.get("http://localhost:3000/images.json");
+      setCloudinaryImages(updatedImagesResponse.data.resources);
     } catch (error) {
       console.error(error);
     }
