@@ -45,11 +45,10 @@
 
 .photo {
   margin: 10px;
-  width: 100px;
-  height: 130px;
-  object-fit: cover;
-  border-radius: 8px;;
+  max-width: 100px;
+  max-height: 130px;
 }
+
 /* 
 .heading {
   

@@ -11,7 +11,7 @@ function App() {
   
     const fetchCloudinaryImages = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/images.json");
+        const response = await axios.get("http://localhost:3000/images.json?folder=PridefulPack");
         setCloudinaryImages(response.data.resources);
       } catch (error) {
         console.error(error);
@@ -41,7 +41,8 @@ function App() {
     try {
       const response = await axios.post("http://localhost:3000/upload_image.json", formData);
       console.log(response.data);
-      const updatedImagesResponse = await axios.get("http://localhost:3000/images.json");
+
+      const updatedImagesResponse = await axios.get("http://localhost:3000/images.json?folder=PridefulPack");
       setCloudinaryImages(updatedImagesResponse.data.resources);
     } catch (error) {
       console.error(error);
