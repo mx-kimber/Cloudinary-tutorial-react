@@ -6,6 +6,7 @@ function App() {
   const [imageSelected, setImageSelected] = useState(null);
   const [cloudinaryUrl, setCloudinaryUrl] = useState(null);
   const [cloudinaryImages, setCloudinaryImages] = useState([]);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
 
   useEffect(() => {
   
@@ -21,6 +22,17 @@ function App() {
     fetchCloudinaryImages();
   }, []);
 
+  useEffect(() => {
+    if (uploadSuccess) {
+      const timeoutId = setTimeout(() => {
+        setCloudinaryUrl(null);
+        setUploadSuccess(false);
+      }, 2000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [uploadSuccess]);
+
   const handleImageChange = (event) => {
     const selectedFile = event.target.files[0];
     setImageSelected(selectedFile);
@@ -29,6 +41,7 @@ function App() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setCloudinaryUrl(reader.result);
+        setUploadSuccess(false);
       };
       reader.readAsDataURL(selectedFile);
     }
@@ -44,6 +57,7 @@ function App() {
 
       const updatedImagesResponse = await axios.get("http://localhost:3000/images.json?folder=PridefulPack");
       setCloudinaryImages(updatedImagesResponse.data.resources);
+      setUploadSuccess(true);
     } catch (error) {
       console.error(error);
     }
@@ -53,7 +67,10 @@ function App() {
     <div>
       <div className="preview-image-container">
         {cloudinaryUrl && (
-          <img src={cloudinaryUrl} alt="Preview" className="preview-image" />
+          <div>
+            <img src={cloudinaryUrl} alt="Preview" className="preview-image" />
+            {uploadSuccess && <p>Upload successful!</p>}
+          </div>
         )}
       </div>
 
