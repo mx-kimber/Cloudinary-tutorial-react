@@ -45,6 +45,7 @@ function App() {
       };
       reader.readAsDataURL(selectedFile);
     }
+    event.target.value = null;
   };
 
   const uploadImage = async () => {
@@ -59,6 +60,7 @@ function App() {
         const confirmUpdate = window.confirm("Ope! Looks like you already have this image uploaded. Would you like to update the original?");
   
         if (!confirmUpdate) {
+          setImageSelected(null);
           setCloudinaryUrl(null);
           return;
         }
@@ -70,6 +72,7 @@ function App() {
       const updatedImagesResponse = await axios.get("http://localhost:3000/images.json?folder=PridefulPack");
       setCloudinaryImages(updatedImagesResponse.data.resources);
       setUploadSuccess(true);
+      setImageSelected(null);
     } catch (error) {
       console.error(error);
     }
@@ -90,8 +93,13 @@ function App() {
         <h2>Implementing Cloudinary</h2>
       </div>
       <div className="input">
+        <label htmlFor="fileInput" className="file-label">
+          Choose File
+        </label>
         <input
           type="file"
+          id="fileInput"
+          className="file-input"
           onChange={handleImageChange}
         />
         <button onClick={uploadImage}> Upload Image </button>
