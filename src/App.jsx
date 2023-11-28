@@ -53,16 +53,23 @@ function App() {
     formData.append("file", imageSelected);
 
     try {
-      const response = await axios.get(`http://localhost:3000/images.json?folder=PridefulPack&public_id=${imageSelected.name}`);
-      
+      const response = await axios.get(`http://localhost:3000/images.json?folder=PridefulPack`);
+     
       if (response.data.resources && response.data.resources.length > 0) {
-       
-        const confirmUpdate = window.confirm("Ope! Looks like you already have this image uploaded. Would you like to update the original?");
+        const existingPublicId = `PridefulPack/${imageSelected.name}`; 
   
-        if (!confirmUpdate) {
-          setImageSelected(null);
-          setCloudinaryUrl(null);
-          return;
+        const anyMatch = response.data.resources.some(resource => resource.public_id === existingPublicId);
+  
+        if (anyMatch) {
+          const confirmUpdate = window.confirm(`Ope! Looks like you already have an image with the same public_id (${existingPublicId}) uploaded. Would you like to update the original?`);
+  
+          if (!confirmUpdate) {
+            setImageSelected(null);
+            setCloudinaryUrl(null);
+            return;
+          }
+        } else {
+          console.log("No images with the same public_id found in the Cloudinary folder.");
         }
       }
 
