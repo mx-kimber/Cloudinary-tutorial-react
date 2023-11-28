@@ -52,9 +52,21 @@ function App() {
     formData.append("file", imageSelected);
 
     try {
-      const response = await axios.post("http://localhost:3000/upload_image.json", formData);
-      console.log(response.data);
+      const response = await axios.get(`http://localhost:3000/images.json?folder=PridefulPack&public_id=${imageSelected.name}`);
+      
+      if (response.data.resources && response.data.resources.length > 0) {
+       
+        const confirmUpdate = window.confirm("Ope! Looks like you already have this image uploaded. Would you like to update the original?");
+  
+        if (!confirmUpdate) {
+          setCloudinaryUrl(null);
+          return;
+        }
+      }
 
+      const uploadResponse = await axios.post("http://localhost:3000/upload_image.json", formData);
+      console.log(uploadResponse.data);
+  
       const updatedImagesResponse = await axios.get("http://localhost:3000/images.json?folder=PridefulPack");
       setCloudinaryImages(updatedImagesResponse.data.resources);
       setUploadSuccess(true);
